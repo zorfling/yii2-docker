@@ -1,4 +1,4 @@
-FROM php:7.0.8-apache
+FROM php:7.1-apache
 
 ENV PATH $PATH:/root/.composer/vendor/bin
 
@@ -11,10 +11,8 @@ RUN apt-get update \
             libmcrypt-dev \
             zlib1g-dev \
         --no-install-recommends \
-
     # Enable mod_rewrite
     && a2enmod rewrite \
-
     # Install PHP extensions
     && docker-php-ext-install intl \
     && docker-php-ext-install pdo_mysql \
@@ -23,11 +21,9 @@ RUN apt-get update \
     && docker-php-ext-install opcache \
     && docker-php-ext-install zip \
     && pecl install apcu-5.1.8 && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini \
-
     && apt-get purge -y g++ \
     && apt-get autoremove -y \
     && rm -r /var/lib/apt/lists/* \
-
     # Fix write permissions with shared folders
     && usermod -u 1000 www-data
 
